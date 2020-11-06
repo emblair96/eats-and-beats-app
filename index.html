@@ -10,12 +10,53 @@
     <title>Project 1 App</title>
 </head>
 <body>
-<!--Create a header-->
-<!--Create a div for a search bar with an example in the input textbox-->
-<!--Create a div for a dropdown menu for the meal type-->
-<!--Create a div for a dropdown menu for the meal time-->
-<!--Create a div for the recipe & music playlist-->
-<!--Create a div to generate a list of the last search-->
+    <!--Create a header using Bulma css-->
+    <section class="hero is-warning">
+        <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Eats & Beats</h1>
+            <h2 class="subtitle">Where food meets music!</h2>
+        </div>
+        </div>
+    </section>
+    <!--Create a div for a search bar with an example in the input textbox-->
+    <div class="text-input">
+        <input class="input is-warning is-rounded" type="text" placeholder="Italian, Chinese, Mexican...">
+    </div>
+    <!--Create a div for a dropdown menu for the meal type-->
+    <div class="select is-warning is-rounded">
+        <select>
+            <option></option>
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+        </select>
+    </div>
+    <!--Create a div for a dropdown menu for the meal time-->
+    <div class="select is-warning is-rounded">
+        <select>
+            <option></option>
+            <option>15 minutes or less</option>
+            <option>30 minutes</option>
+            <option>45 minutes or more</option>
+            <option>None</option>
+        </select>
+    </div>
+    <!--Create a submit button-->
+    <div class="control">
+        <button class="button is-primary">Submit</button>
+    </div>
+    <!--Create a div for the recipe & music playlist-->
+    <!--Create a div to generate a list of the last search-->
+    <!--Create a footer-->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Eats & Beats &#169 2020</strong> by <a href="https://github.com/Team-Norm-1/project-1">Clement, Emily, Patrick, Danilo, & Amber.</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
-<!--Create a footer-->
 </html>
