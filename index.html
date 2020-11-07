@@ -19,35 +19,58 @@
         </div>
         </div>
     </section>
-    <!--Create a div for a search bar with an example in the input textbox-->
-    <div class="text-input">
-        <input class="input is-warning is-rounded" type="text" placeholder="Italian, Chinese, Mexican...">
-    </div>
-    <!--Create a div for a dropdown menu for the meal type-->
-    <div class="select is-warning is-rounded">
-        <select>
-            <option></option>
-            <option>Breakfast</option>
-            <option>Lunch</option>
-            <option>Dinner</option>
-        </select>
-    </div>
-    <!--Create a div for a dropdown menu for the meal time-->
-    <div class="select is-warning is-rounded">
-        <select>
-            <option></option>
-            <option>15 minutes or less</option>
-            <option>30 minutes</option>
-            <option>45 minutes or more</option>
-            <option>None</option>
-        </select>
-    </div>
-    <!--Create a submit button-->
-    <div class="control">
-        <button class="button is-primary">Submit</button>
-    </div>
-    <!--Create a div for the recipe & music playlist-->
-    <!--Create a div to generate a list of the last search-->
+
+    <section class="container">
+        <section class="section has-text-centered">
+            <!--Create a div for a search bar with an example in the input textbox-->
+            <div class="text-input">
+                <input id="userInput" class="input is-warning is-rounded" type="text" placeholder="Italian, Chinese, Mexican...">
+            </div>
+
+            <!--Create a div for a dropdown menu for the meal type-->
+            <div class="select is-warning is-rounded">
+                <select id="mealType">
+                    <option></option>
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Dinner</option>
+                </select>
+            </div>
+
+            <!--Create a div for a dropdown menu for the meal time-->
+            <div class="select is-warning is-rounded">
+                <select id="mealTime">
+                    <option></option>
+                    <option value="15">15 minutes or less</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes or more</option>
+                    <option value="">None</option>
+                </select>
+            </div>
+                
+            <!--Create a submit button-->
+            <div class="control">
+                <button class="submitBtn button is-primary">Submit</button>
+            </div>
+        </section>
+    </section>
+
+    <section class="container">
+        <section class="columns">
+            <section class="column is-half">
+                <section id="instructions" class="container">
+                   <!--- instructions here-->
+                </section>
+            </section>
+
+            <section class="column is-half">
+                <section id="playlist" class="container">
+                    <!--- playlist here -->
+                </section>
+            </section>
+        </section>
+    </section>
+
     <!--Create a footer-->
     <footer class="footer">
         <div class="content has-text-centered">
@@ -56,7 +79,7 @@
             </p>
         </div>
     </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
