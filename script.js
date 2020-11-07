@@ -7,7 +7,7 @@ $(".submitBtn").on("click", function() {
 
 
     // Query URL takes userInput (i.e. chicken, pasta) and mealType (i.e. breakfast, lunch, or dinner) and uses that to generate a list of recipes
-    var queryURL = "https://api.spoonacular.com/recipes/search?cuisine=" + userInput + "," + mealType + "&number=100&apiKey=89279c0bc943469b848b4a779f09bd6c"
+    var queryURL = "https://api.spoonacular.com/recipes/search?cuisine=" + userInput + "&query=" + mealType + "&instructionsRequired=true&number=100&apiKey=89279c0bc943469b848b4a779f09bd6c"
     
 
     // Initial api that generates roughly 100 recipes based on user input; randomly select one of those recipes
@@ -17,7 +17,8 @@ $(".submitBtn").on("click", function() {
       }).then(function(response) {
         console.log(queryURL)
         // Get the source URL of the selected recipe
-        var recipeIndex = Math.floor(Math.random() * (99 - 0) + 0)
+        console.log(response.results.length)
+        var recipeIndex = Math.floor(Math.random() * (response.results.length - 0) + 0)
         var recipeURL = response.results[recipeIndex].sourceUrl;
 
         // Use the recipe URL to do another API call that allows us to get detailed, step by step instructions
