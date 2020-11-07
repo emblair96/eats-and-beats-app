@@ -28,22 +28,49 @@ $(".submitBtn").on("click", function() {
         $.ajax({
             url: newQueryURL,
             method: "GET"
-          }).then(function(response) {
-            console.log(newQueryURL)
-            var instructions = response.instructions;
-            var ingredientsArr = response.extendedIngredients
-            console.log(response.extendedIngredients[0].original)
-
-            // for (var i=0; i<ingredientsArr; i++) {
-            //   var ingredient = ingredientsArr[i].original
-            //   ingredientP = $("<p>")
-            //   ingredientP.text(ingredient)
-            //   $("#instructions").append(ingredientP)
-            // }
-        
-          
-            $("#instructions").html(instructions)
-        
+          }).then(function(data) {
+                console.log(data)
+                //Print title of the recipe
+                var title = $("<h3>")
+                title.addClass("titleRecipe")
+                title.text(data.title)
+                $("#instructions").append(title)
+    
+                //Print details of the recipe: serving + time to cook
+                var detail = $("<h5>")
+                detail.addClass("detailRecipe")
+                detail.text("Serving: " + data.servings + " - Ready in: " + data.readyInMinutes + " mins")
+                $("#instructions").append(detail)
+    
+                //Create ul list for ingredients
+                var ulList = $("<ul>")
+                ulList.addClass("listRecipe")
+                $("#instructions").append(ulList)
+                //Print ingedrients
+                for (var i=0; i<data.extendedIngredients.length; i++){
+                    var liList = $("<li>")
+                    liList.text(data.extendedIngredients[i].name + ": " + data.extendedIngredients[i].measures.us.amount + " " + data.extendedIngredients[i].measures.us.unitShort)
+                    $(ulList).append(liList)
+                }
+    
+                //Print title for the recipe
+                var instruction = $("<div>")
+                console.log(instruction)
+                instruction.addClass("instructionRecipe")
+                instruction.html(data.instructions)
+                $("#instructions").append(instruction)
+                
+                //Print recipe source
+                //Print source title
+                var sourceTitle = $("<h4>")
+                sourceTitle.addClass("sourceTitleRecipe")
+                sourceTitle.text("Source:")
+                $("#instructions").append(sourceTitle)
+                //Print source url
+                var source = $("<a>")
+                source.addClass("sourceRecipe")
+                source.text(data.sourceUrl)
+                $("#instructions").append(source)        
           })
 
           // Get a playlist based on mealType (breakfast, lunch, or dinner)
