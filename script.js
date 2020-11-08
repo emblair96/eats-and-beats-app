@@ -106,27 +106,46 @@ $(".submitBtn").on("click", function() {
 
 
             // Embed the playlist on the page
-            var newDeezerQueryURL = ("https://api.deezer.com/oembed?url=http://www.deezer.com/playlist/" + playlistID + "&height=500&app_id=443882")
+            var newDeezerQueryURL = ("https://api.deezer.com/playlist/" + playlistID + "/?app_id=443882")
 
-            $.ajax({
+          $.ajax({
             url: newDeezerQueryURL,  
             type: 'GET',
-            dataType: 'json',
-            cors: true,
-            contentType:'application/json',
-            secure: true,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                "Content-Security-Policy": "upgrade-insecure-requests",
-              },
-              beforeSend: function (xhr) {
-                xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-              },
-            }).then(function(response) {
-              var widgetHTML = response.html;
-              $("#playlist").html(widgetHTML)
           
-            })
+            }).then(function(response) {
+              var songList = response.tracks.data;
+              var playlistTitle = response.title;
+              var playlistLength = ((response.duration) / 60).toFixed(0);
+              var playlistLink = response.link;
+
+              var linkEl = $("<a>");
+              var playlistTitleEl = $("<h3>" + playlistTitle + "</h3>");
+              var playlistLengthEl = $("<p>" + playlistLength + " mins" + "</p>");
+
+              linkEl.text("Listen on Deezer");
+              linkEl.attr("href", playlistLink);
+              
+              $("#playlist").append(playlistTitleEl);
+              $("#playlist").append(playlistLengthEl);
+              $("#playlist").append(linkEl);
+
+              console.log(newDeezerQueryURL)
+
+              for (p=0; p<response.tracks.data.length; p++) {
+                var songTitle = songList[p].title;
+                var previewLink = songList[p].preview;
+
+                var songTitleEl = $("<p>");
+                var audioEl = $("<audio controls>");
+
+                songTitleEl.text(songTitle);
+                audioEl.attr("src", previewLink);
+
+                $("#playlist").append(songTitleEl);
+                $("#playlist").append(audioEl);
+              }
+            
+            });
                  
           })
             
