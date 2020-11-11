@@ -1,3 +1,6 @@
+.hero-body{
+    padding:1.8em;
+}
 .title, .subtitle {
     text-align: center;
 }
@@ -40,11 +43,31 @@
     width:100%;
 }
 #playlist,#instructions{
-    padding:1em 3em 1em 3em;
+    padding:1.5em 1.5em 5.5em 1.5em;
+    max-height:100vh;
+    min-height:100vh;
+    overflow-y:auto;
 }
 #playlist{
     border-left: 1px solid #e6e6e6;
-    max-height:600px;
-    min-height:600px;
-    overflow-y:scroll;
 }
+#playlist::-webkit-scrollbar-track,
+#instructions::-webkit-scrollbar-track
+{
+	background-color: #F5F5F5;
+}
+
+#playlist::-webkit-scrollbar,
+#instructions::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #F5F5F5;
+}
+
+#playlist::-webkit-scrollbar-thumb,
+#instructions::-webkit-scrollbar-thumb
+{
+	background-color: #e3e3e3;
+}
+
+
