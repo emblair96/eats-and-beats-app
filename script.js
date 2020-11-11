@@ -3,8 +3,9 @@ $(".submitBtn").on("click", function() {
     userInput = $("#userInput").val()
     mealType = $("#mealType").val()
     mealTime = $("#mealTime").val()
-    console.log(mealTime)
 
+    appendRecipe();
+    appendPlaylist();
 
     // Query URL takes userInput (i.e. chicken, pasta) and mealType (i.e. breakfast, lunch, or dinner) and uses that to generate a list of recipes
     var queryURL = "https://api.spoonacular.com/recipes/search?cuisine=" + userInput + "&query=" + mealType + "&instructionsRequired=true&number=100&apiKey=3d2b1593b14340bd9e66363d999241ef"
@@ -37,103 +38,161 @@ $(".submitBtn").on("click", function() {
                 title.text(data.title)
                 $("#instructions").append(title)
     
-                //Print details of the recipe: serving + time to cook
-                var detail = $("<h5>")
-                detail.addClass("detailRecipe")
-                detail.text("Serving: " + data.servings + " - Ready in: " + data.readyInMinutes + " mins")
-                $("#instructions").append(detail)
+
+// Initial api that generates roughly 100 recipes based on user input; randomly select one of those recipes
+$.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+
+    // Randomly select a recipe by ID; then do an API call to get the source URL of that recipe
+    var recipeIndex = Math.floor(Math.random() * (response.results.length - 0) + 0);
+    var recipeID = response.results[recipeIndex].id;
     
-                //Create ul list for ingredients
-                var ulList = $("<ul>")
-                ulList.addClass("listRecipe")
-                $("#instructions").append(ulList)
-                //Print ingedrients
-                for (var i=0; i<data.extendedIngredients.length; i++){
-                    var liList = $("<li>")
-                    liList.text(data.extendedIngredients[i].name + ": " + data.extendedIngredients[i].measures.us.amount + " " + data.extendedIngredients[i].measures.us.unitShort)
-                    $(ulList).append(liList)
-                }
+    var newQueryURL = "https://api.spoonacular.com/recipes/" + recipeID + "/information?apiKey=3d2b1593b14340bd9e66363d999241ef"
+
+    $.ajax({
+      url: newQueryURL,
+      method: "GET"
+    }).then(function(response) {
     
-                //Print title for the recipe
-                var instruction = $("<div>")
-                console.log(instruction)
-                instruction.addClass("instructionRecipe")
-                instruction.html(data.instructions)
-                $("#instructions").append(instruction)
-                
-                //Print recipe source
-                //Print source title
-                var sourceTitle = $("<h4>")
-                sourceTitle.addClass("sourceTitleRecipe")
-                sourceTitle.text("Source:")
-                $("#instructions").append(sourceTitle)
-                //Print source url
-                var source = $("<a>")
-                source.addClass("sourceRecipe")
-                source.text(data.sourceUrl)
-                $("#instructions").append(source)        
-          })
+    // Get the source URL of the selected recipe
 
-          // Get a playlist based on mealType (breakfast, lunch, or dinner)
-          
-          var deezerQueryURL = ("https://api.deezer.com/search/playlist/?q=" + mealType + "&app_id=443882");
+    var recipeURL = response.sourceUrl;
+ 
+    // Use the recipe URL to do another API call that allows us to get detailed, step by step instructions
+    var newQueryURL2 = "https://api.spoonacular.com/recipes/extract?url=" + recipeURL + "&apiKey=3d2b1593b14340bd9e66363d999241ef";
 
+    // ajax call to get the detailed instructions of the recipe
+    $.ajax({
+        url: newQueryURL2,
+        method: "GET"
+      }).then(function(data) {
+            $("#instructions").empty();
+            //Print title of the recipe
+            var title = $("<h3>")
+            title.addClass("titleRecipe title is-4")
+            title.text(data.title)
+            $("#instructions").append(title)
 
-          $.ajax({
-            url: deezerQueryURL,          
-            type: 'GET',
-            dataType: 'json',
-            cors: true,
-            contentType:'application/json',
-            secure: true,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              "Content-Security-Policy": "upgrade-insecure-requests",
-            },
-            beforeSend: function (xhr) {
-              xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-            },
-          }).then(function(response) {
-            console.log(deezerQueryURL)
-            console.log(response)
-            console.log(response.data[0].title)
-            var playlistCount = response.data.length
+            //Print details of the recipe: serving + time to cook
+            var detail = $("<h5>")
+            detail.addClass("detailRecipe")
+            detail.text("Serving: " + data.servings + " - Ready in: " + data.readyInMinutes + " mins")
+            $("#instructions").append(detail)
+
+            //Create ul list for ingredients
+            var ulList = $("<ul>")
+            ulList.addClass("listRecipe")
+            $("#instructions").append(ulList)
+            //Print ingedrients
+            for (var i=0; i<data.extendedIngredients.length; i++){
+                var liList = $("<li>")
+                liList.text(data.extendedIngredients[i].name + ": " + data.extendedIngredients[i].measures.us.amount + " " + data.extendedIngredients[i].measures.us.unitShort)
+                $(ulList).append(liList)
+            }
+
+            //Print title for the recipe
+            var instruction = $("<div>")
+            console.log(instruction)
+            instruction.addClass("instructionRecipe")
+            instruction.html(data.instructions)
+            $("#instructions").append(instruction)
             
-            var playlistIndex = Math.floor(Math.random() * (playlistCount))
-
-            var playlistID = response.data[playlistIndex].id
-            console.log(playlistID)
-
-
-            // Embed the playlist on the page
-            var newDeezerQueryURL = ("https://api.deezer.com/oembed?url=http://www.deezer.com/playlist/" + playlistID + "&height=500&app_id=443882")
-
-            $.ajax({
-            url: newDeezerQueryURL,  
-            type: 'GET',
-            dataType: 'json',
-            cors: true,
-            contentType:'application/json',
-            secure: true,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                "Content-Security-Policy": "upgrade-insecure-requests",
-              },
-              beforeSend: function (xhr) {
-                xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-              },
-            }).then(function(response) {
-              var widgetHTML = response.html;
-              $("#playlist").html(widgetHTML)
-          
-            })
-                 
-          })
-            
+            //Print recipe source
+            //Print source title
+            var sourceTitle = $("<h4>")
+            sourceTitle.addClass("sourceTitleRecipe")
+            sourceTitle.text("Source:")
+            $("#instructions").append(sourceTitle)
+            //Print source url
+            var source = $("<a>")
+            source.addClass("sourceRecipe")
+            source.text(data.sourceUrl)
+            $("#instructions").append(source)        
       })
+
+          
   })
+})
+}
+
+function appendPlaylist() {
+ // Get a playlist based on mealType (breakfast, lunch, or dinner)
+          
+ var deezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/playlist/?q=" + mealType + "&app_id=443882");
 
 
+ $.ajax({
+   url: deezerQueryURL,          
+   type: 'GET',
+   dataType: 'json',
+   cors: true,
+   contentType:'application/json',
+   secure: true,
+   headers: {
+     'Access-Control-Allow-Origin': '*',
+     "Content-Security-Policy": "upgrade-insecure-requests",
+   },
+   beforeSend: function (xhr) {
+     xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+   },
+ }).then(function(response) {
+   $("#playlist").empty();
+   var playlistCount = response.data.length
+   
+   var playlistIndex = Math.floor(Math.random() * (playlistCount))
+
+   var playlistID = response.data[playlistIndex].id
+   console.log(playlistID)
+
+
+   // Embed the playlist on the page
+   var newDeezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/playlist/" + playlistID + "/?app_id=443882")
+
+ $.ajax({
+   url: newDeezerQueryURL,  
+   type: 'GET',
+ 
+   }).then(function(response) {
+     var songList = response.tracks.data;
+     var playlistTitle = response.title;
+     var playlistLength = ((response.duration) / 60).toFixed(0);
+     var playlistLink = response.link;
+
+     var linkEl = $("<a>");
+     var playlistTitleEl = $("<h3>" + playlistTitle + "</h3>");
+     var playlistLengthEl = $("<p>" + playlistLength + " mins" + "</p>");
+
+     linkEl.text("Listen on Deezer");
+     linkEl.attr("href", playlistLink);
+     playlistTitleEl.addClass("title is-4");
+     
+     $("#playlist").append(playlistTitleEl);
+     $("#playlist").append(playlistLengthEl);
+     $("#playlist").append(linkEl);
+
+     console.log(newDeezerQueryURL)
+
+     for (p=0; p<response.tracks.data.length; p++) {
+       var songTitle = songList[p].title;
+       var previewLink = songList[p].preview;
+
+       var songTitleEl = $("<p>");
+       var audioEl = $("<audio controls>");
+
+       songTitleEl.text(songTitle);
+       audioEl.attr("controlsList", "nodownload");
+       audioEl.attr("src", previewLink);
+
+       $("#playlist").append(songTitleEl);
+       $("#playlist").append(audioEl);
+     }
+   
+   });
+        
+ })  
+}
 
 
 
