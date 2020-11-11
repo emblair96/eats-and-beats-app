@@ -1,6 +1,18 @@
 .title, .subtitle {
     text-align: center;
 }
+.submitBtn{
+    background-color:#F8931D;
+}
+.section {
+    padding:1rem 1.5rem;
+}
+.meal-input-area{
+    padding: 1.8em 1.3em 1.3em 1.3em;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
 
 .text-input, .select, .button {
     display: inline-block;
@@ -9,15 +21,30 @@
 }
 
 .footer {
-    position: fixed;
+    position:fixed;
+    background-color:#f9f9f9;
+    margin:0;
     bottom: 0;
     width: 100%;
-    height: 2.5rem;
-    background-color: #DCDCDC;
+    padding:0.66em;
+    font-size:0.88em;
+    border-top:1px solid #e6e6e6;
 }
 
 .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+#playlist audio{
+    width:100%;
+}
+#playlist,#instructions{
+    padding:1em 3em 1em 3em;
+}
+#playlist{
+    border-left: 1px solid #e6e6e6;
+    max-height:600px;
+    min-height:600px;
+    overflow-y:scroll;
 }
