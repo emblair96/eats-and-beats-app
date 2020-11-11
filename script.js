@@ -6,6 +6,7 @@ $(".submitBtn").on("click", function() {
 
   appendRecipe();
   appendPlaylist();
+  storeRecipes();
 
   $("#userInput").val("")
   $("#mealType").val("")
@@ -172,7 +173,20 @@ $.ajax({
 })  
 }
 
+function storeRecipes() {
+  localStorage.setItem("User Input", JSON.stringify(userInput));
+  localStorage.setItem("Meal Type", JSON.stringify(mealType));
+  localStorage.setItem("Meal Time", JSON.stringify(mealTime));
+}
 
+$(".tryAgainBtn").on("click", function() {
+  var userInput = localStorage.getItem("User Input");
+  var mealType = localStorage.getItem("Meal Type");
+  var mealTime = localStorage.getItem("Meal Time");
+
+  appendRecipe();
+  appendPlaylist();
+})
 
 /*
 on click event associated with user input/search button
