@@ -13,9 +13,27 @@ $(".submitBtn").on("click", function() {
   $("#mealTime").val("")
 })
 
+//variable for the meal option: vegetarian
+var mealOption = "";
+var checkBoxVegetarian = $("#checkVegetarian")
+
+//On click event for the Vegetarian option checkbox 
+$("#checkVegetarian").on("change", toggleCheckbox)
+
+//Function to call the data from the checkbox
+function toggleCheckbox() {
+    if (checkBoxVegetarian === false) {
+        checkBoxVegetarian = true
+        mealOption = ""
+    } else {
+        checkBoxVegetarian = false
+        mealOption = "&diet=Vegetarian"
+    }
+}
+
 function appendRecipe() {
 // Query URL takes userInput (i.e. chicken, pasta) and mealType (i.e. breakfast, lunch, or dinner) and uses that to generate a list of recipes
-var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=3d2b1593b14340bd9e66363d999241ef"
+var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + mealOption + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=3d2b1593b14340bd9e66363d999241ef"
   
 
 // Initial api that generates roughly 100 recipes based on user input; randomly select one of those recipes
