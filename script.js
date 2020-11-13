@@ -105,6 +105,7 @@ $.ajax({
           //Print source url
           var source = $("<a>")
           source.addClass("sourceRecipe")
+          source.attr("href", data.sourceUrl)
           source.text(data.sourceUrl)
           $("#instructions").append(source)        
     })
