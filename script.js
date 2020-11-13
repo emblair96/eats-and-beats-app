@@ -46,7 +46,7 @@ $.ajax({
   var recipeIndex = Math.floor(Math.random() * (response.results.length - 0) + 0);
   var recipeID = response.results[recipeIndex].id;
   
-  var newQueryURL = "https://api.spoonacular.com/recipes/" + recipeID + "/information?apiKey=3d2b1593b14340bd9e66363d999241ef"
+  var newQueryURL = "https://api.spoonacular.com/recipes/" + recipeID + "/information?apiKey=576f86638e3e433f82e79f90e10131dd"
 
   $.ajax({
     url: newQueryURL,
@@ -104,9 +104,10 @@ $.ajax({
           $("#instructions").append(sourceTitle)
           //Print source url
           var source = $("<a>")
+          var sourceURL = data.sourceUrl;
           source.addClass("sourceRecipe")
-          source.attr("href", data.sourceUrl)
-          source.text(data.sourceUrl)
+          source.attr("href", sourceURL)
+          source.text(sourceURL)
           $("#instructions").append(source)        
     })
 
@@ -155,19 +156,16 @@ $.ajax({
  }).then(function(response) {
    var songList = response.tracks.data;
    var playlistTitle = response.title;
-   var playlistLength = ((response.duration) / 60).toFixed(0);
    var playlistLink = response.link;
 
    var linkEl = $("<a>");
    var playlistTitleEl = $("<h3>" + playlistTitle + "</h3>");
-   var playlistLengthEl = $("<p>" + playlistLength + " mins" + "</p>");
 
    linkEl.text("Listen on Deezer");
    linkEl.attr("href", playlistLink);
    playlistTitleEl.addClass("title is-4");
    
    $("#playlist").append(playlistTitleEl);
-   $("#playlist").append(playlistLengthEl);
    $("#playlist").append(linkEl);
 
    console.log(newDeezerQueryURL)
