@@ -33,7 +33,7 @@ function toggleCheckbox() {
 
 function appendRecipe() {
 // Query URL takes userInput (i.e. chicken, pasta) and mealType (i.e. breakfast, lunch, or dinner) and uses that to generate a list of recipes
-var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + mealOption + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=3d2b1593b14340bd9e66363d999241ef"
+var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + mealOption + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=89279c0bc943469b848b4a779f09bd6c"
   
 
 // Initial api that generates roughly 100 recipes based on user input; randomly select one of those recipes
@@ -58,7 +58,7 @@ $.ajax({
   var recipeURL = response.sourceUrl;
 
   // Use the recipe URL to do another API call that allows us to get detailed, step by step instructions
-  var newQueryURL2 = "https://api.spoonacular.com/recipes/extract?url=" + recipeURL + "&apiKey=3d2b1593b14340bd9e66363d999241ef";
+  var newQueryURL2 = "https://api.spoonacular.com/recipes/extract?url=" + recipeURL + "&apiKey=2f66221f0011486881f25b8fcc3819ca";
 
   // ajax call to get the detailed instructions of the recipe
   $.ajax({
@@ -195,12 +195,14 @@ function storeRecipes() {
   localStorage.setItem("User Input", JSON.stringify(userInput));
   localStorage.setItem("Meal Type", JSON.stringify(mealType));
   localStorage.setItem("Meal Time", JSON.stringify(mealTime));
+  localStorage.setItem("Meal Option", JSON.stringify(mealOption));
 }
 
 $(".tryAgainBtn").on("click", function() {
   var userInput = localStorage.getItem("User Input");
   var mealType = localStorage.getItem("Meal Type");
   var mealTime = localStorage.getItem("Meal Time");
+  var mealOption = localStorage.getItem("Meal Option");
 
   appendRecipe();
   appendPlaylist();
