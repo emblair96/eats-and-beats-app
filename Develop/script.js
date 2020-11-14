@@ -3,6 +3,7 @@ $(".submitBtn").on("click", function() {
   userInput = $("#userInput").val()
   mealType = $("#mealType").val()
   mealTime = $("#mealTime").val()
+  playlistGenre = $("#playlistGenre").val()
 
   appendRecipe();
   appendPlaylist();
@@ -33,7 +34,7 @@ function toggleCheckbox() {
 
 function appendRecipe() {
 // Query URL takes userInput (i.e. chicken, pasta) and mealType (i.e. breakfast, lunch, or dinner) and uses that to generate a list of recipes
-var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + mealOption + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=89279c0bc943469b848b4a779f09bd6c"
+var queryURL = "https://api.spoonacular.com/recipes/complexSearch?cuisine=" + userInput + "&query=" + mealType + "," + mealOption + "&instructionsRequired=true&number=100&maxReadyTime=" + mealTime + "&apiKey=89279c0bc943469b848b4a779f09bd6c"
   
 
 // Initial api that generates roughly 100 recipes based on user input; randomly select one of those recipes
@@ -41,12 +42,12 @@ $.ajax({
   url: queryURL,
   method: "GET"
 }).then(function(response) {
-
+console.log(response)
   // Randomly select a recipe by ID; then do an API call to get the source URL of that recipe
   var recipeIndex = Math.floor(Math.random() * (response.results.length - 0) + 0);
   var recipeID = response.results[recipeIndex].id;
   
-  var newQueryURL = "https://api.spoonacular.com/recipes/" + recipeID + "/information?apiKey=576f86638e3e433f82e79f90e10131dd"
+  var newQueryURL = "https://api.spoonacular.com/recipes/" + recipeID + "/information?apiKey=89279c0bc943469b848b4a779f09bd6c"
 
   $.ajax({
     url: newQueryURL,
@@ -58,7 +59,7 @@ $.ajax({
   var recipeURL = response.sourceUrl;
 
   // Use the recipe URL to do another API call that allows us to get detailed, step by step instructions
-  var newQueryURL2 = "https://api.spoonacular.com/recipes/extract?url=" + recipeURL + "&apiKey=2f66221f0011486881f25b8fcc3819ca";
+  var newQueryURL2 = "https://api.spoonacular.com/recipes/extract?url=" + recipeURL + "&apiKey=89279c0bc943469b848b4a779f09bd6c";
 
   // ajax call to get the detailed instructions of the recipe
   $.ajax({
@@ -119,7 +120,7 @@ $.ajax({
 function appendPlaylist() {
 // Get a playlist based on mealType (breakfast, lunch, or dinner)
         
-var deezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/playlist/?q=" + mealType + "&app_id=443882");
+var deezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/playlist/?q=" + playlistGenre + "&app_id=443882");
 
 
 $.ajax({
