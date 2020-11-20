@@ -6,7 +6,6 @@ $(".submitBtn").on("click", function() {
   playlistGenre = $("#playlistGenre").val()
 
   appendRecipe();
-  appendPlaylist();
   storeRecipes();
 
   $("#userInput").val("")
@@ -44,6 +43,11 @@ $.ajax({
 }).then(function(response) {
 console.log(response)
   // Randomly select a recipe by ID; then do an API call to get the source URL of that recipe
+  if (response.results.length === 0) {
+    alert("uh oh!");
+    return false;
+  }
+
   var recipeIndex = Math.floor(Math.random() * (response.results.length - 0) + 0);
   var recipeID = response.results[recipeIndex].id;
   
@@ -115,6 +119,7 @@ console.log(response)
         
 })
 })
+appendPlaylist();
 }
 
 function appendPlaylist() {
@@ -169,7 +174,6 @@ $.ajax({
    $("#playlist").append(playlistTitleEl);
    $("#playlist").append(linkEl);
 
-   console.log(newDeezerQueryURL)
 
    for (p=0; p<response.tracks.data.length; p++) {
      var songTitle = songList[p].title;
