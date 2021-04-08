@@ -1,0 +1,28 @@
+{
+  "name": "eats-and-beats-app",
+  "version": "1.0.0",
+  "description": "## Description  Eats and Beats App wants to bring an unique experience to the user, by combining two of our team members passions: music & food. Our desire is to bring a easy and intuitive digital tool, to help the user experience and share a great moment.",
+  "main": "server.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "spotify": "^0.3.0",
+    "spotify-web-api-node": "^5.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emblair96/eats-and-beats-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emblair96/eats-and-beats-app/issues"
+  },
+  "homepage": "https://github.com/emblair96/eats-and-beats-app#readme"
+}

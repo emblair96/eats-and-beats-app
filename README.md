@@ -3,7 +3,7 @@
 ## Description 
 Eats and Beats App wants to bring an unique experience to the user, by combining two of our team members passions: music & food. Our desire is to bring a easy and intuitive digital tool, to help the user experience and share a great moment.  
   
-I built this app with four other awesome team members in my first group project during the Norhtwestern Coding Bootcamp.  I made some updates on my personal GitHub page to finnesse our work.  You can view the original project [here](https://github.com/Team-Norm-1/project-1).
+I built this app with four other awesome team members in my first group project during the Norhtwestern Coding Bootcamp.  I made some updates on my own time to finnesse our work which are reflected in this repo.  You can view the original project [here](https://github.com/Team-Norm-1/project-1).
 
 ## User Story
 AS A: Food and music enthusiast   
@@ -24,7 +24,7 @@ THEN I am again presented with a new recipe and playlist who match my criteria
 
 ![Eats and Beats App Demo](Assets/eats-and-beats-demo.gif)
 
-## Technology Used
+## Technologies
 * HTML
 * CSS
 * JavaScript
@@ -34,15 +34,14 @@ THEN I am again presented with a new recipe and playlist who match my criteria
 
 ## APIs  
 * [Spoonacular](https://spoonacular.com/food-api)
-* [Deezer](https://developers.deezer.com/api) 
+* [Spotify](https://developer.spotify.com/) 
 
 ## Links
-* [Personal GitHub Pages](https://emblair96.github.io/eats-and-beats-app/)
-* [GitHub Pages](https://team-norm-1.github.io/project-1/)
-* [GitHub Repository](https://github.com/Team-Norm-1/project-1)
+* [Deployed](https://emblair96.github.io/eats-and-beats-app/)
+* [Original Project](https://github.com/Team-Norm-1/project-1)
 
 ## Credits
-* We used [cors-anywhere](https://github.com/Rob--W/cors-anywhere/) to help resolve a CORS error with the Deezer API. 
+* [This example](https://glitch.com/edit/#!/spotify-client-credentials) on how to implement Spotify client credential authentication method was super helpful.
 
 ## License
 Copyright (c) 2020 Clement Valles, Emily Blair, Patrick Dalton, Danilo Bracho, & Amber Chiodini.

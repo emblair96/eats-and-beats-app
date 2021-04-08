@@ -1,4 +1,4 @@
-$(".submitBtn").on("click", function() {
+$(".submitBtn").on("click", function(event) {
   event.preventDefault();
   userInput = $("#userInput").val()
   mealType = $("#mealType").val()
@@ -6,11 +6,14 @@ $(".submitBtn").on("click", function() {
   playlistGenre = $("#playlistGenre").val()
 
   appendRecipe();
+  appendPlaylist();
   storeRecipes();
+  storePlaylist();
 
   $("#userInput").val("")
   $("#mealType").val("")
   $("#mealTime").val("")
+  $("#playlistGenre").val("")
 })
 
 //variable for the meal option: vegetarian
@@ -41,7 +44,6 @@ $.ajax({
   url: queryURL,
   method: "GET"
 }).then(function(response) {
-console.log(response)
   // Randomly select a recipe by ID; then do an API call to get the source URL of that recipe
   if (response.results.length === 0) {
     alert("uh oh!");
@@ -96,7 +98,6 @@ console.log(response)
 
           //Print title for the recipe
           var instruction = $("<div>")
-          console.log(instruction)
           instruction.addClass("instructionRecipe")
           instruction.html(data.instructions)
           $("#instructions").append(instruction)
@@ -119,80 +120,25 @@ console.log(response)
         
 })
 })
-appendPlaylist();
 }
 
 function appendPlaylist() {
-// Get a playlist based on mealType (breakfast, lunch, or dinner)
-        
-var deezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/playlist/?q=" + playlistGenre + "&app_id=443882");
+  $("#playlist").html("")
 
+  $.get('/spotifyplaylist/' + playlistGenre, function(data) {
+    var playlistCount = data.length;
 
-$.ajax({
- url: deezerQueryURL,          
- type: 'GET',
- dataType: 'json',
- cors: true,
- contentType:'application/json',
- secure: true,
- headers: {
-   'Access-Control-Allow-Origin': '*',
-   "Content-Security-Policy": "upgrade-insecure-requests",
- },
- beforeSend: function (xhr) {
-   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
- },
-}).then(function(response) {
- $("#playlist").empty();
- var playlistCount = response.data.length
- 
- var playlistIndex = Math.floor(Math.random() * (playlistCount))
+    var playlistIndex = Math.floor(Math.random() * (playlistCount))
 
- var playlistID = response.data[playlistIndex].id
- console.log(playlistID)
+    var playlistId = data[playlistIndex].id
 
+    var playlistContent = "<iframe src='https://open.spotify.com/embed/playlist/" + playlistId + "' " + " width='500' height='800' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>"
 
- // Embed the playlist on the page
- var newDeezerQueryURL = ("https://cors-anywhere.herokuapp.com/https://api.deezer.com/playlist/" + playlistID + "/?app_id=443882")
+    console.log('CONTENT', playlistContent)
+    
+    $("#playlist").append(playlistContent)
 
-$.ajax({
- url: newDeezerQueryURL,  
- type: 'GET',
-
- }).then(function(response) {
-   var songList = response.tracks.data;
-   var playlistTitle = response.title;
-   var playlistLink = response.link;
-
-   var linkEl = $("<a>");
-   var playlistTitleEl = $("<h3>" + playlistTitle + "</h3>");
-
-   linkEl.text("Listen on Deezer");
-   linkEl.attr("href", playlistLink);
-   playlistTitleEl.addClass("title is-4");
-   
-   $("#playlist").append(playlistTitleEl);
-   $("#playlist").append(linkEl);
-
-
-   for (p=0; p<response.tracks.data.length; p++) {
-     var songTitle = songList[p].title;
-     var previewLink = songList[p].preview;
-
-     var songTitleEl = $("<p>");
-     var audioEl = $("<audio controls>");
-
-     songTitleEl.text(songTitle);
-     audioEl.attr("controlsList", "nodownload");
-     audioEl.attr("src", previewLink);
-
-     $("#playlist").append(songTitleEl);
-     $("#playlist").append(audioEl);
-   }
- 
- });
-      
-})  
+  });
 }
 
 function storeRecipes() {
@@ -202,11 +148,18 @@ function storeRecipes() {
   localStorage.setItem("Meal Option", JSON.stringify(mealOption));
 }
 
+function storePlaylist() {
+  localStorage.setItem("Playlist genre", JSON.stringify(playlistGenre))
+}
+
 $(".tryAgainBtn").on("click", function() {
+  $("#playlist").html("")
+
   var userInput = localStorage.getItem("User Input");
   var mealType = localStorage.getItem("Meal Type");
   var mealTime = localStorage.getItem("Meal Time");
   var mealOption = localStorage.getItem("Meal Option");
+  var playlistGenre = localStorage.getItem("Playlist genre");
 
   appendRecipe();
   appendPlaylist();
